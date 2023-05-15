@@ -1,0 +1,60 @@
+@import 'responsive-mixins';
+@import 'colors';
+
+:host {
+  // $x-width: calc($mobile-toggle-height + $mobile-toggle-margin + 3rem);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+aside.left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  section.field-selector-container {
+    border: 1px solid green;
+  }
+
+  section.functions {
+    border: 1px solid orange;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.4rem;
+
+    button {
+      width: 5rem;
+    }
+  }
+
+  section.info {
+    border: 1px solid yellow;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    aside.left,
+    aside.right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+    }
+  }
+}
+
+section.gamepad-container {
+  border: 1px solid greenyellow;
+
+  #gamepad {
+    width: 500px;
+    height: 500px;
+
+    border: 1px solid $primary-color;
+  }
+}
