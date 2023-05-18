@@ -23,6 +23,10 @@
 </aside>
 <aside class="right">
   <section class="gamepad-container">
-    <div id="gamepad"></div>
+    <div id="gamepad">
+      <ng-container *ngFor="let cell of cells$ | async">
+        <div class="cell" [ngClass]="{ selected: cell.selected }" (click)="selectCell(cell)"></div>
+      </ng-container>
+    </div>
   </section>
 </aside>
