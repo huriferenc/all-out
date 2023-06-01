@@ -17,8 +17,45 @@ export class Cell {
   }
 }
 
-// export interface Cell {
-//   id: number;
-//   turnedOut: boolean;
-//   // target: boolean;
-// }
+export const DEFAULT_MAP = 1;
+
+export const MAP_NUMBER = 3;
+
+export const MAPS: number[][] = [
+  [
+    //
+    1, 1, 1, 1, 0,
+    //
+    0, 0, 0, 1, 1,
+    //
+    0, 1, 0, 0, 0,
+    //
+    0, 0, 0, 0, 1,
+    //
+    0, 1, 1, 0, 1
+  ],
+  [
+    //
+    1, 1, 0, 0, 0,
+    //
+    1, 1, 1, 0, 0,
+    //
+    0, 1, 1, 1, 0,
+    //
+    0, 0, 1, 1, 1,
+    //
+    0, 0, 0, 1, 1
+  ],
+  [
+    //
+    0, 0, 1, 0, 0,
+    //
+    0, 1, 0, 1, 0,
+    //
+    1, 0, 0, 0, 1,
+    //
+    0, 1, 0, 1, 0,
+    //
+    0, 0, 1, 0, 0
+  ]
+];

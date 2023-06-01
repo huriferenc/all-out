@@ -14,6 +14,7 @@ import { YouWinDialogComponent } from './you-win-dialog/you-win-dialog.component
 export class AppComponent implements OnInit, OnDestroy {
   moves$: BehaviorSubject<number>;
   cells$: BehaviorSubject<Cell[]>;
+  selectedMap$: BehaviorSubject<number>;
 
   seconds = 0;
   time = '00:00';
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.moves$ = this.storeService.moves$;
     this.cells$ = this.storeService.cells$;
+    this.selectedMap$ = this.storeService.selectedMap$;
 
     this.storeService.checkStoreData();
     // this.selectedCells = this.storeService.cells.filter((item) => item.turnedOut);
