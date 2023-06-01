@@ -1,16 +1,19 @@
-import { Helper } from './helper';
-
 export const CELL_NUMBER = 25;
+
+export const MAX_X = 5;
 
 export class Cell {
   id: number;
   selected: boolean;
-  // target: boolean;
+  x: number;
+  y: number;
 
-  constructor(id = Helper.randomNumber(), selected = false /*,target = false*/) {
+  constructor(id: number, selected = false) {
     this.id = id;
     this.selected = selected;
-    // this.target = target;
+
+    this.x = id % MAX_X;
+    this.y = Math.floor(id / MAX_X);
   }
 }
 

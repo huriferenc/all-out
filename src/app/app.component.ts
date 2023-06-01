@@ -1,15 +1,9 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { StoreService } from './store.service';
 import { BehaviorSubject } from 'rxjs';
-import { CELL_NUMBER } from './game.model';
+import { CELL_NUMBER, Cell } from './game.model';
 import { DialogService } from '@ngneat/dialog';
 import { HelpDialogComponent } from './help-dialog/help-dialog.component';
-
-interface Cell {
-  id: number;
-  selected: boolean;
-  // matched: boolean;
-}
 
 @Component({
   selector: 'app-root',
@@ -52,7 +46,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   selectCell(cell: Cell): void {
     this.storeService.cells = this.storeService.cells.map((item) => {
-      if (item.id === cell.id) {
+      if (
+        item.id === cell.id ||
+        (item.x === cell.x - 1 && item.y === cell.y) ||
+        (item.x === cell.x + 1 && item.y === cell.y) ||
+        (item.x === cell.x && item.y === cell.y - 1) ||
+        (item.x === cell.x && item.y === cell.y + 1)
+      ) {
         item.selected = !item.selected;
       }
 

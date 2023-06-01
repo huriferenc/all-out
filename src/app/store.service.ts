@@ -80,6 +80,6 @@ export class StoreService {
   }
 
   generateCells(): void {
-    this.cells = [...new Array(CELL_NUMBER)].map((_, index) => new Cell(index, false));
+    this.cells = [...new Array(CELL_NUMBER)].map((_, index) => new Cell(index));
   }
 }
