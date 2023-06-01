@@ -1,13 +1,17 @@
 <aside class="left">
   <section class="field-selector-container">
     <div id="game-field-selector">
-      <h1>{{ selectedMap$ | async }}</h1>
+      <button (click)="selectMap(-99)"><<</button>
+      <button (click)="selectMap(-1)"><</button>
+      <span id="selected-map">{{ (selectedMap$ | async) + 1 }}</span>
+      <button (click)="selectMap(1)">></button>
+      <button (click)="selectMap(99)">>></button>
     </div>
   </section>
   <section class="functions">
-    <button>Solve</button>
-    <button>Reset</button>
-    <button>Random</button>
+    <button (click)="solve()">Solve</button>
+    <button (click)="resetGame()">Reset</button>
+    <button (click)="randomMap()">Random</button>
     <button (click)="openHelpDialog()">Help</button>
   </section>
   <section class="info">

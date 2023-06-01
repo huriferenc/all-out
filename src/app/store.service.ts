@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CELL_NUMBER, Cell, DEFAULT_MAP, MAP_NUMBER, MAPS } from './game.model';
 import { LocalStorage } from './local-storage';
+import { Helper } from './helper';
 
 @Injectable({
   providedIn: 'root'
@@ -83,25 +84,20 @@ export class StoreService {
 
   newGame(): void {
     this.resetMoves();
-    this.resetSelectedMap();
     this.generateCells();
   }
 
   restartCurrentGame(): void {
-    this.resetMoves();
-    this.reloadSelectedMap();
+    this.newGame();
+  }
+
+  loadMapRandomly(): void {
+    this.selectedMap = Helper.randomNumber(0, MAP_NUMBER - 1);
+    this.newGame();
   }
 
   private resetMoves(): void {
     this.moves = 0;
-  }
-
-  private resetSelectedMap(): void {
-    this.selectedMap = DEFAULT_MAP;
-  }
-
-  private reloadSelectedMap(): void {
-    this.cells = this.cells.map((item) => ({ ...item, turnedOut: false }));
   }
 
   private generateCells(): void {

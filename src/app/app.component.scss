@@ -15,7 +15,17 @@ aside.left {
   gap: 1rem;
 
   section.field-selector-container {
-    border: 1px solid green;
+    #game-field-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      #selected-map {
+        width: 3rem;
+        text-align: center;
+        font-size: 1.5em;
+      }
+    }
   }
 
   section.functions {
@@ -26,16 +36,6 @@ aside.left {
 
     button {
       width: 100%;
-      font-size: 1.2rem;
-      color: $primary-color;
-      border: 3px solid $primary-color;
-      background-color: $secondary-color;
-      padding: 0.5rem 0;
-
-      &:hover {
-        color: $secondary-color;
-        background-color: $primary-color;
-      }
     }
   }
 

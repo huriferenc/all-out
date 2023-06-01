@@ -30,7 +30,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.selectedMap$ = this.storeService.selectedMap$;
 
     this.storeService.checkStoreData();
-    // this.selectedCells = this.storeService.cells.filter((item) => item.turnedOut);
 
     this.startTimer();
   }
@@ -41,6 +40,32 @@ export class AppComponent implements OnInit, OnDestroy {
 
   getRowAndColumnNumber() {
     return Math.ceil(Math.sqrt(CELL_NUMBER));
+  }
+
+  selectMap(val: -99 | -1 | 1 | 99): void {
+    if (!Number.isSafeInteger(val)) {
+      return;
+    }
+
+    this.storeService.selectedMap += val;
+
+    this.storeService.newGame();
+
+    this.restartTimer();
+  }
+
+  solve() {
+    console.log('This function is not working now!');
+  }
+
+  resetGame() {
+    this.storeService.restartCurrentGame();
+    this.restartTimer();
+  }
+
+  randomMap() {
+    this.storeService.loadMapRandomly();
+    this.restartTimer();
   }
 
   openHelpDialog() {
