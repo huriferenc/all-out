@@ -7,6 +7,18 @@
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+
+  min-height: 100%;
+}
+
+section.start-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  #start-button {
+    padding: 1rem;
+  }
 }
 
 aside.left {

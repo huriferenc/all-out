@@ -1,43 +1,50 @@
-<aside class="left">
-  <section class="field-selector-container">
-    <div id="game-field-selector">
-      <button (click)="selectMap(-99)"><<</button>
-      <button (click)="selectMap(-1)"><</button>
-      <span id="selected-map">{{ (selectedMap$ | async) + 1 }}</span>
-      <button (click)="selectMap(1)">></button>
-      <button (click)="selectMap(99)">>></button>
-    </div>
+<ng-container *ngIf="!isStarted">
+  <section class="start-container">
+    <button id="start-button" (click)="start()">Start!</button>
   </section>
-  <section class="functions">
-    <button (click)="solve()">Solve</button>
-    <button (click)="resetGame()">Reset</button>
-    <button (click)="randomMap()">Random</button>
-    <button (click)="openHelpDialog()">Help</button>
-  </section>
-  <section class="info">
-    <aside class="left">
-      <div>Time:</div>
-      <div>Moves:</div>
-    </aside>
-    <aside class="right">
-      <div id="time">{{ time }}</div>
-      <div id="moves">{{ moves$ | async }}</div>
-    </aside>
-  </section>
-</aside>
-<aside class="right">
-  <section class="gamepad-container">
-    <div
-      id="gamepad"
-      [style.grid-template-columns]="'repeat(' + getRowAndColumnNumber() + ', 1fr)'"
-    >
-      <ng-container *ngFor="let cell of cells$ | async">
-        <div
-          class="cell"
-          [ngClass]="{ turnedOut: cell.turnedOut }"
-          (click)="selectCell(cell)"
-        ></div>
-      </ng-container>
-    </div>
-  </section>
-</aside>
+</ng-container>
+<ng-container *ngIf="isStarted">
+  <aside class="left">
+    <section class="field-selector-container">
+      <div id="game-field-selector">
+        <button (click)="selectMap(-99)"><<</button>
+        <button (click)="selectMap(-1)"><</button>
+        <span id="selected-map">{{ (selectedMap$ | async) + 1 }}</span>
+        <button (click)="selectMap(1)">></button>
+        <button (click)="selectMap(99)">>></button>
+      </div>
+    </section>
+    <section class="functions">
+      <button (click)="solve()">Solve</button>
+      <button (click)="resetGame()">Reset</button>
+      <button (click)="randomMap()">Random</button>
+      <button (click)="openHelpDialog()">Help</button>
+    </section>
+    <section class="info">
+      <aside class="left">
+        <div>Time:</div>
+        <div>Moves:</div>
+      </aside>
+      <aside class="right">
+        <div id="time">{{ time }}</div>
+        <div id="moves">{{ moves$ | async }}</div>
+      </aside>
+    </section>
+  </aside>
+  <aside class="right">
+    <section class="gamepad-container">
+      <div
+        id="gamepad"
+        [style.grid-template-columns]="'repeat(' + getRowAndColumnNumber() + ', 1fr)'"
+      >
+        <ng-container *ngFor="let cell of cells$ | async">
+          <div
+            class="cell"
+            [ngClass]="{ turnedOut: cell.turnedOut }"
+            (click)="selectCell(cell)"
+          ></div>
+        </ng-container>
+      </div>
+    </section>
+  </aside>
+</ng-container>

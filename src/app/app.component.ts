@@ -19,6 +19,12 @@ export class AppComponent implements OnInit, OnDestroy {
   seconds = 0;
   time = '00:00';
   timer: any;
+  backgroundSoundTimer: any;
+
+  isStarted = false;
+
+  private selectSound = new Audio('../assets/audio/select.mp3');
+  private backgroundSound = new Audio('../assets/audio/background.mp3');
 
   private dialog = inject(DialogService);
 
@@ -30,16 +36,27 @@ export class AppComponent implements OnInit, OnDestroy {
     this.selectedMap$ = this.storeService.selectedMap$;
 
     this.storeService.checkStoreData();
-
-    this.startTimer();
   }
 
   ngOnDestroy(): void {
     this.stopTimer();
+
+    this.stopSelectSound();
+    this.stopBackgroundSound();
+
+    this.stopBackgroundSoundTimer();
   }
 
   getRowAndColumnNumber() {
     return Math.ceil(Math.sqrt(CELL_NUMBER));
+  }
+
+  start() {
+    this.isStarted = true;
+
+    this.startTimer();
+
+    this.playBackgroundSound();
   }
 
   selectMap(val: -99 | -1 | 1 | 99): void {
@@ -47,11 +64,15 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const oldMap = this.storeService.selectedMap;
+
     this.storeService.selectedMap += val;
 
-    this.storeService.newGame();
+    if (oldMap !== this.storeService.selectedMap) {
+      this.storeService.newGame();
 
-    this.restartTimer();
+      this.restartTimer();
+    }
   }
 
   solve() {
@@ -77,6 +98,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   selectCell(cell: Cell): void {
+    this.playSelectSound();
+
     this.storeService.cells = this.storeService.cells.map((item) => {
       if (
         item.id === cell.id ||
@@ -137,5 +160,41 @@ export class AppComponent implements OnInit, OnDestroy {
     if (!!this.timer) {
       clearInterval(this.timer);
     }
+  }
+
+  private stopBackgroundSoundTimer() {
+    if (!!this.backgroundSoundTimer) {
+      clearInterval(this.backgroundSoundTimer);
+    }
+  }
+
+  private playBackgroundSound() {
+    this.backgroundSound.pause();
+    this.backgroundSound.currentTime = 0;
+    this.backgroundSound.play();
+
+    this.backgroundSoundTimer = setInterval(() => {
+      this.backgroundSound.pause();
+      this.backgroundSound.currentTime = 0;
+      this.backgroundSound.play();
+    }, this.backgroundSound.duration * 1000);
+  }
+
+  private playSelectSound() {
+    this.selectSound.pause();
+    this.selectSound.currentTime = 0;
+    this.selectSound.play();
+  }
+
+  private stopSelectSound() {
+    this.selectSound.pause();
+    this.selectSound.currentTime = 0;
+    this.selectSound = null;
+  }
+
+  private stopBackgroundSound() {
+    this.backgroundSound.pause();
+    this.backgroundSound.currentTime = 0;
+    this.backgroundSound = null;
   }
 }
