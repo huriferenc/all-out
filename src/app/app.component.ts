@@ -1,7 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { StoreService } from './store.service';
-import { BehaviorSubject, timer } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { CELL_NUMBER } from './game.model';
+import { DialogService } from '@ngneat/dialog';
+import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 
 interface Cell {
   id: number;
@@ -21,6 +23,8 @@ export class AppComponent implements OnInit, OnDestroy {
   seconds = 0;
   time = '00:00';
   timer: any;
+
+  private dialog = inject(DialogService);
 
   constructor(private storeService: StoreService) {}
 
@@ -43,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   openHelpDialog() {
-    console.log('Dialog');
+    this.dialog.open(HelpDialogComponent);
   }
 
   selectCell(cell: Cell): void {
