@@ -1,5 +1,7 @@
 import { Helper } from './helper';
 
+export const CELL_NUMBER = 25;
+
 export class Cell {
   id: number;
   selected: boolean;

@@ -55,10 +55,24 @@ section.gamepad-container {
     width: 500px;
     height: 500px;
 
+    display: grid;
+    align-content: center;
+    grid-gap: 5px;
+
+    // grid-template-columns: repeat(5, 1fr);
+
     border: 1px solid $primary-color;
 
     .cell {
-      background-color: black;
+      background-color: rgb(225, 0, 255);
+
+      aspect-ratio: 1;
+      position: relative;
+      transform: scale(1);
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+      box-shadow: 1px 1px 1px rgba(255, 0, 191, 0.3);
+      border-radius: 6px;
 
       &.selected {
         background-color: pink;

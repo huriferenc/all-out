@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { StoreService } from './store.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, timer } from 'rxjs';
+import { CELL_NUMBER } from './game.model';
 
 interface Cell {
   id: number;
@@ -13,9 +14,13 @@ interface Cell {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   moves$: BehaviorSubject<number>;
   cells$: BehaviorSubject<Cell[]>;
+
+  seconds = 0;
+  time = '00:00';
+  timer: any;
 
   constructor(private storeService: StoreService) {}
 
@@ -25,6 +30,16 @@ export class AppComponent implements OnInit {
 
     this.storeService.checkStoreData();
     // this.selectedCells = this.storeService.cells.filter((item) => item.selected);
+
+    this.startTimer();
+  }
+
+  ngOnDestroy(): void {
+    this.stopTimer();
+  }
+
+  getRowAndColumnNumber() {
+    return Math.ceil(Math.sqrt(CELL_NUMBER));
   }
 
   openHelpDialog() {
@@ -45,5 +60,28 @@ export class AppComponent implements OnInit {
 
   private increaseMoves(): void {
     ++this.storeService.moves;
+  }
+
+  private startTimer() {
+    this.timer = setInterval(() => {
+      if (this.seconds == 60 * 60 - 1) {
+        this.stopTimer();
+        return;
+      }
+
+      this.seconds++;
+
+      const sec = this.seconds % 60;
+      const min = Math.floor(this.seconds / 60);
+
+      this.time = (min < 10 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec);
+    }, 1000);
+  }
+
+  private stopTimer() {
+    this.time = '00:00';
+    if (!!this.timer) {
+      clearInterval(this.timer);
+    }
   }
 }

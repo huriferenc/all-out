@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Cell } from './game.model';
+import { CELL_NUMBER, Cell } from './game.model';
 import { LocalStorage } from './local-storage';
-
-export const CELL_NUMBER = 25;
 
 @Injectable({
   providedIn: 'root'
