@@ -28,7 +28,11 @@
       [style.grid-template-columns]="'repeat(' + getRowAndColumnNumber() + ', 1fr)'"
     >
       <ng-container *ngFor="let cell of cells$ | async">
-        <div class="cell" [ngClass]="{ selected: cell.selected }" (click)="selectCell(cell)"></div>
+        <div
+          class="cell"
+          [ngClass]="{ turnedOut: cell.turnedOut }"
+          (click)="selectCell(cell)"
+        ></div>
       </ng-container>
     </div>
   </section>

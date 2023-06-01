@@ -4,13 +4,13 @@ export const MAX_X = 5;
 
 export class Cell {
   id: number;
-  selected: boolean;
+  turnedOut: boolean;
   x: number;
   y: number;
 
-  constructor(id: number, selected = false) {
+  constructor(id: number, turnedOut = false) {
     this.id = id;
-    this.selected = selected;
+    this.turnedOut = turnedOut;
 
     this.x = id % MAX_X;
     this.y = Math.floor(id / MAX_X);
@@ -19,6 +19,6 @@ export class Cell {
 
 // export interface Cell {
 //   id: number;
-//   selected: boolean;
+//   turnedOut: boolean;
 //   // target: boolean;
 // }

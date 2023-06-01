@@ -69,7 +69,7 @@ section.gamepad-container {
     background-color: $primary-color;
 
     .cell {
-      background-color: $secondary-color;
+      background-color: pink;
 
       aspect-ratio: 1;
       position: relative;
@@ -77,8 +77,8 @@ section.gamepad-container {
       transform-style: preserve-3d;
       transition: transform 0.5s;
 
-      &.selected {
-        background-color: pink;
+      &.turnedOut {
+        background-color: $secondary-color;
       }
     }
   }

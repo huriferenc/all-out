@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { CELL_NUMBER, Cell } from './game.model';
 import { DialogService } from '@ngneat/dialog';
 import { HelpDialogComponent } from './help-dialog/help-dialog.component';
+import { YouWinDialogComponent } from './you-win-dialog/you-win-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.cells$ = this.storeService.cells$;
 
     this.storeService.checkStoreData();
-    // this.selectedCells = this.storeService.cells.filter((item) => item.selected);
+    // this.selectedCells = this.storeService.cells.filter((item) => item.turnedOut);
 
     this.startTimer();
   }
@@ -44,6 +45,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dialog.open(HelpDialogComponent);
   }
 
+  openWinnerDialog() {
+    this.dialog.open(YouWinDialogComponent);
+  }
+
   selectCell(cell: Cell): void {
     this.storeService.cells = this.storeService.cells.map((item) => {
       if (
@@ -53,17 +58,34 @@ export class AppComponent implements OnInit, OnDestroy {
         (item.x === cell.x && item.y === cell.y - 1) ||
         (item.x === cell.x && item.y === cell.y + 1)
       ) {
-        item.selected = !item.selected;
+        item.turnedOut = !item.turnedOut;
       }
 
       return item;
     });
 
     this.increaseMoves();
+
+    this.checkTurnedOutCells();
   }
 
   private increaseMoves(): void {
     ++this.storeService.moves;
+  }
+
+  private checkTurnedOutCells(): void {
+    const isAllOut = this.storeService.cells.every((item) => item.turnedOut);
+
+    if (isAllOut) {
+      this.openWinnerDialog();
+      this.restartTimer();
+      this.storeService.newGame();
+    }
+  }
+
+  private restartTimer(): void {
+    this.stopTimer();
+    this.startTimer();
   }
 
   private startTimer() {
@@ -83,6 +105,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private stopTimer() {
+    this.seconds = 0;
     this.time = '00:00';
     if (!!this.timer) {
       clearInterval(this.timer);

@@ -87,6 +87,11 @@ ngneat-dialog {
       .ngneat-close-dialog {
         color: $primary-color;
 
+        svg {
+          width: 1.2rem;
+          height: 1.2rem;
+        }
+
         &:hover {
           color: $secondary-color;
           background-color: $primary-color;

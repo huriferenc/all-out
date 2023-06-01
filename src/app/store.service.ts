@@ -68,15 +68,15 @@ export class StoreService {
 
   // restartCurrentGame(): void {
   //   this.resetMoves();
-  //   this.resetSelectedCells();
+  //   this.resetTurnedOutCells();
   // }
 
   private resetMoves(): void {
     this.moves = 0;
   }
 
-  private resetSelectedCells(): void {
-    this.cells = this.cells.map((item) => ({ ...item, selected: false }));
+  private resetTurnedOutCells(): void {
+    this.cells = this.cells.map((item) => ({ ...item, turnedOut: false }));
   }
 
   generateCells(): void {
