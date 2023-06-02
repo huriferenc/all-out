@@ -2,6 +2,15 @@ export const CELL_NUMBER = 25;
 
 export const MAX_X = 5;
 
+export const MAX_TIME_SCORE = 3600;
+export const MAX_MOVE_SCORE = 36000;
+export const MIN_SCORE = 100000;
+
+export const TOP_LIST_LENGTH = 10;
+
+export const DEFAULT_MAP = 1;
+export const MAP_NUMBER = 3;
+
 export class Cell {
   id: number;
   turnedOut: boolean;
@@ -17,9 +26,15 @@ export class Cell {
   }
 }
 
-export const DEFAULT_MAP = 1;
+export class Score {
+  name: string;
+  score: number;
 
-export const MAP_NUMBER = 3;
+  constructor(name: string, score = 0) {
+    this.name = name;
+    this.score = score;
+  }
+}
 
 export const MAPS: number[][] = [
   [

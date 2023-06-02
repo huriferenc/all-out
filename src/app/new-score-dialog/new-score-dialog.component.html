@@ -1,0 +1,10 @@
+<form #form="ngForm" (ngSubmit)="submit(form)" novalidate>
+  <label for="name">Your name:</label>
+  <input type="text" name="name" [(ngModel)]="name" required #nameInput="ngModel" />
+
+  <div *ngIf="nameInput.invalid && (nameInput.dirty || nameInput.touched)">
+    <div *ngIf="nameInput.errors.required">Please, enter your name!</div>
+  </div>
+
+  <button type="submit" [disabled]="form.invalid">Save</button>
+</form>

@@ -1,0 +1,11 @@
+<h1>Top10</h1>
+
+<ng-container *ngIf="toplist">
+  <ul class="toplist">
+    <li class="toplist__item" *ngFor="let item of toplist; let i = index">
+      <span>{{ i + 1 }}</span>
+      <span>{{ item.name }}</span>
+      <span>{{ item.score }}</span>
+    </li>
+  </ul>
+</ng-container>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { CELL_NUMBER, Cell, DEFAULT_MAP, MAP_NUMBER, MAPS } from './game.model';
+import { Cell, DEFAULT_MAP, MAP_NUMBER, MAPS, Score, TOP_LIST_LENGTH } from './game.model';
 import { LocalStorage } from './local-storage';
 import { Helper } from './helper';
 
@@ -16,6 +16,9 @@ export class StoreService {
 
   selectedMap$ = new BehaviorSubject(DEFAULT_MAP);
   selectedMapChanged = this.selectedMap$.asObservable();
+
+  topList$: BehaviorSubject<Score[]> = new BehaviorSubject([]);
+  topListChanged = this.topList$.asObservable();
 
   get moves() {
     return this.moves$.getValue();
@@ -40,6 +43,15 @@ export class StoreService {
     this.selectedMap$.next(val < 0 ? 0 : val >= MAP_NUMBER ? MAP_NUMBER - 1 : val);
   }
 
+  get topList() {
+    return this.topList$.getValue();
+  }
+  set topList(val: Score[]) {
+    if (Array.isArray(val)) {
+      this.topList$.next(val);
+    }
+  }
+
   isFirstLoad = true;
 
   constructor() {
@@ -58,12 +70,18 @@ export class StoreService {
         LocalStorage.setItem('selectedMap', value);
       }
     });
+    this.topListChanged.subscribe((value: Score[]) => {
+      if (!this.isFirstLoad && Array.isArray(value)) {
+        LocalStorage.setItem('topList', value);
+      }
+    });
   }
 
   checkStoreData() {
     const moves: number = LocalStorage.getItem('moves');
     const cells: Cell[] = LocalStorage.getItem('cells');
     const selectedMap: number = LocalStorage.getItem('selectedMap');
+    const topList: Score[] = LocalStorage.getItem('topList');
 
     this.isFirstLoad = false;
 
@@ -80,6 +98,12 @@ export class StoreService {
     } else {
       this.newGame();
     }
+
+    if (Array.isArray(topList) && topList.length > 0) {
+      this.topList = topList;
+    } else {
+      this.topList = [];
+    }
   }
 
   newGame(): void {
@@ -94,6 +118,19 @@ export class StoreService {
   loadMapRandomly(): void {
     this.selectedMap = Helper.randomNumber(0, MAP_NUMBER - 1);
     this.newGame();
+  }
+
+  addScore(name: string, score = 0) {
+    let topList = [...this.topList];
+
+    topList.push(new Score(name, score));
+
+    topList = topList.sort((a, b) => b.score - a.score);
+    if (topList.length > TOP_LIST_LENGTH) {
+      topList = topList.slice(0, TOP_LIST_LENGTH);
+    }
+
+    this.topList = topList;
   }
 
   private resetMoves(): void {

@@ -1,0 +1,26 @@
+@import 'colors';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  line-height: 1.5;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+
+  input {
+    background-color: $secondary-color;
+    border: 3px solid $primary-color;
+    color: $primary-color;
+    padding: 0.6rem;
+  }
+
+  button {
+    width: fit-content;
+  }
+}

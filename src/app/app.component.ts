@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { StoreService } from './store.service';
 import { BehaviorSubject } from 'rxjs';
-import { CELL_NUMBER, Cell } from './game.model';
+import { CELL_NUMBER, Cell, MAX_MOVE_SCORE, MAX_TIME_SCORE, MIN_SCORE } from './game.model';
 import { DialogService } from '@ngneat/dialog';
 import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { YouWinDialogComponent } from './you-win-dialog/you-win-dialog.component';
+import { ToplistDialogComponent } from './toplist-dialog/toplist-dialog.component';
+import { NewScoreDialogComponent } from './new-score-dialog/new-score-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -93,8 +95,32 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dialog.open(HelpDialogComponent);
   }
 
+  openToplistDialog() {
+    this.dialog.open(ToplistDialogComponent, {
+      data: this.storeService.topList
+    });
+  }
+
   openWinnerDialog() {
-    this.dialog.open(YouWinDialogComponent);
+    const dialogRef = this.dialog.open(YouWinDialogComponent, {
+      enableClose: false,
+      closeButton: false
+    });
+    setTimeout(() => {
+      dialogRef.close();
+    }, 1500);
+  }
+
+  openNewScoreDialog() {
+    setTimeout(() => {
+      const dialogRef = this.dialog.open(NewScoreDialogComponent, {
+        enableClose: false,
+        closeButton: false
+      });
+      dialogRef.afterClosed$.subscribe((result) => {
+        this.saveScore(result);
+      });
+    }, 1500);
   }
 
   selectCell(cell: Cell): void {
@@ -127,10 +153,40 @@ export class AppComponent implements OnInit, OnDestroy {
     const isAllOut = this.storeService.cells.every((item) => item.turnedOut);
 
     if (isAllOut) {
-      this.openWinnerDialog();
-      this.restartTimer();
-      this.storeService.newGame();
+      this.youWin();
     }
+  }
+
+  private youWin() {
+    this.openWinnerDialog();
+    this.openNewScoreDialog();
+    this.restartTimer();
+    this.storeService.newGame();
+  }
+
+  private saveScore(name: string) {
+    if (typeof name !== 'string' || name.length === 0) {
+      console.warn('Invalid name!');
+      return;
+    }
+
+    let score = MIN_SCORE;
+
+    let timeScore = MAX_TIME_SCORE - this.seconds;
+    if (timeScore < 0) {
+      timeScore = 0;
+    }
+    score += timeScore;
+
+    let moveScore = MAX_MOVE_SCORE - this.storeService.moves;
+    if (moveScore < 0) {
+      moveScore = 0;
+    }
+    score += moveScore;
+
+    this.storeService.addScore(name, score);
+
+    this.openToplistDialog();
   }
 
   private restartTimer(): void {
