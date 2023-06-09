@@ -30,6 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private dialog = inject(DialogService);
 
+  private winningSeconds = 0;
+
   constructor(private storeService: StoreService) {}
 
   ngOnInit(): void {
@@ -158,10 +160,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private youWin() {
+    this.winningSeconds = this.seconds;
+
     this.openWinnerDialog();
     this.openNewScoreDialog();
     this.restartTimer();
-    this.storeService.newGame();
   }
 
   private saveScore(name: string) {
@@ -172,7 +175,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     let score = MIN_SCORE;
 
-    let timeScore = MAX_TIME_SCORE - this.seconds;
+    let timeScore = MAX_TIME_SCORE - this.winningSeconds;
     if (timeScore < 0) {
       timeScore = 0;
     }
@@ -185,6 +188,10 @@ export class AppComponent implements OnInit, OnDestroy {
     score += moveScore;
 
     this.storeService.addScore(name, score);
+
+    this.storeService.newGame();
+
+    this.winningSeconds = 0;
 
     this.openToplistDialog();
   }

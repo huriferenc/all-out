@@ -91,6 +91,8 @@ export class StoreService {
 
     if (Number.isSafeInteger(selectedMap)) {
       this.selectedMap = selectedMap;
+    } else {
+      this.selectedMap = DEFAULT_MAP;
     }
 
     if (Array.isArray(cells) && cells.length > 0) {
